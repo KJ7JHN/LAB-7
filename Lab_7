@@ -1,5 +1,62 @@
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
 class LAB_7{
-   public static void readfile(String[] args){
-      //Hello
+
+   public static void FileWriter(String[] broccoli){
+      try{
+         FileWriter fwrite = new FileWriter("newdata.txt", true);
+         for(int j = 0; j < 2820; j++){         
+            fwrite.write(broccoli[j]); 
+         }         
+         fwrite.close();
+         
+      }catch(Exception e){
+         System.out.println(e.getMessage());
+      }
+   }
+
+   public static String twoD(double x){
+      return String.format("$%.02f ", x);
+   }
+
+   public static void main(String[] args){
+      int[] orderID = new int[2820];
+      int[] productID = new int[2820];
+      double[] unitPrice = new double[2820];
+      int[]quantity = new int[28201];
+      double[] discount = new double[2820];
+      double[] total_price = new double[2820];
+      String[] total_price$ = new String[2820];
+      try{
+         File readFile = new File("OrderDetails.txt");
+         Scanner in = new Scanner(readFile).useDelimiter("\\s*,\\s*|\\s*\\n");
+         for(int i = 0; i < 2820; i++){
+            quantity[i] = in.nextInt();
+            unitPrice[i] = in.nextDouble();
+            orderID[i] = in.nextInt();
+            productID[i] = in.nextInt();
+            discount[i] = in.nextDouble();
+         }
+            in.close();
+      }catch(Exception e){
+         System.out.println(e.getMessage());
+         System.out.println("I'm sorry Dave, I cannot do that.");
+      }      
+      for(int i = 0; i < 2820; i++){
+         total_price[i] = unitPrice[i] * quantity[i] - (discount[i] * quantity[i] * unitPrice[i]);
+         total_price$[i] = twoD(total_price[i]);
+         System.out.printf(total_price$[i]);
+      }
+      FileWriter(total_price$);
+
    }
 }
+
+//References:
+//https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html#findInLine-java.util.regex.Pattern-
+//https://stackoverflow.com/questions/4898263/multiple-delimiters-in-scanner-class-of-java
+//https://www.bing.com/search?pglt=169&q=in+java+how+do+I+compound+scanner+delimiters&cvid=888e0a76d14a45e2ae91d41fea4dab8c&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg5MjA3ajBqMagCALACAA&FORM=ANNTA1&PC=U531
+//https://greenteapress.com/thinkjava7/html/chapter-07.html#sec86
+//https://greenteapress.com/thinkjava7/html/chapter-06.html#sec82
+//https://stackoverflow.com/questions/12806278/double-decimal-formatting-in-java
