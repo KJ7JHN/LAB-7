@@ -1,5 +1,5 @@
 class LAB_7{
    public static void readfile(String[] args){
-   
+      //Hello
    }
 }
